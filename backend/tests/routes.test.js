@@ -4,6 +4,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const request = require('supertest');
 const helloService = require('../src/services/helloService');
+const { config } = require('../src/config/env');
+const { version } = require('../package.json');
 const { app } = require('../src/app');
 
 beforeEach(() => {
@@ -29,5 +31,14 @@ describe('GET /api/hello', () => {
 
     expect(response.status).toBe(500);
     expect(response.body).toEqual({ error: { message: 'Erro interno do servidor.' } });
+  });
+});
+
+describe('GET /health', () => {
+  it('returns service health details without dependencies', async () => {
+    const response = await request(app).get('/health');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ status: 'ok', env: config.env, version });
   });
 });
