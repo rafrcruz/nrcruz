@@ -18,17 +18,30 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Test backend (coverage)
+        run: npm run test:coverage
+        working-directory: backend
+
+      - name: Test frontend (coverage)
+        run: npm run test:coverage
+        working-directory: frontend
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # Analisa codigo nas pastas backend e frontend.
-          # Pastas de dependencias e build estao excluidas para economizar tempo de analise.
-          # O secret SONAR_TOKEN ja deve estar configurado no repositorio.
-          args: >
-            -Dsonar.projectKey=rafrcruz_nrcruz
-            -Dsonar.organization=rafrcruz
-            -Dsonar.sources=backend,frontend
-            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**,**/coverage/**
