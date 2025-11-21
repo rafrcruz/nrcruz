@@ -20,6 +20,27 @@ export function initSentry() {
   sentryInitialized = true;
 }
 
+export function captureWithSentry(error, context) {
+  if (!sentryInitialized) {
+    return;
+  }
+
+  if (error instanceof Error) {
+    Sentry.captureException(error, context);
+    return;
+  }
+
+  const message = typeof error === 'string' ? error : 'Unknown error captured without details';
+  Sentry.captureMessage(message, { level: 'error', ...context });
+}
+
+export function isSentryReady() {
+  return {
+    enabled: isSentryEnabled,
+    initialized: sentryInitialized,
+  };
+}
+
 export function captureExceptionFromLogger(message, optionalParams = []) {
   if (!sentryInitialized) {
     return;
