@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Label, TextInput as FlowbiteTextInput } from 'flowbite-react';
 
 const TextInput = React.forwardRef(
@@ -22,5 +23,13 @@ const TextInput = React.forwardRef(
 );
 
 TextInput.displayName = 'TextInput';
+
+TextInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  className: PropTypes.string,
+  inputClassName: PropTypes.string,
+  helperText: PropTypes.string,
+};
 
 export default TextInput;
