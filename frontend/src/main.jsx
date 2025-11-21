@@ -4,7 +4,7 @@ import { AppProvider } from './context/AppContext';
 import App from './app/App';
 import './index.css';
 import { logger } from './services/logger';
-import { SentryErrorBoundary, initSentry } from './services/sentry';
+import { SentryErrorBoundary, initSentry } from './services/sentry.jsx';
 import { registerGlobalErrorHandlers } from './services/globalErrorHandler';
 import { config } from './config/env';
 
