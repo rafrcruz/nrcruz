@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getHelloMessage } from '../services/helloService';
+import { logger } from '../services/logger';
 
 export function useHelloMessage() {
   const [message, setMessage] = useState('');
@@ -16,6 +17,7 @@ export function useHelloMessage() {
         setMessage(result);
         setError(null);
       } catch (err) {
+        logger.error('Failed to load hello message', err);
         if (!isMounted) return;
         setError(err);
         setMessage('');
