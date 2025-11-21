@@ -20,7 +20,7 @@ const safeSerialize = value => {
 
   if (typeof value === 'object' && value !== null) {
     try {
-      return JSON.parse(JSON.stringify(value));
+      return structuredClone(value);
     } catch (error) {
       logger.debug('Failed to serialize value for logging', error);
     }
@@ -39,7 +39,7 @@ const reportToSentry = (error, context) => {
 };
 
 export const registerGlobalErrorHandlers = () => {
-  if (typeof window === 'undefined') {
+  if (typeof globalThis.window === 'undefined') {
     return;
   }
 
@@ -71,8 +71,8 @@ export const registerGlobalErrorHandlers = () => {
     return false;
   };
 
-  const previousOnError = window.onerror;
-  window.onerror = (...args) => {
+  const previousOnError = globalThis.onerror;
+  globalThis.onerror = (...args) => {
     handleGlobalError(...args);
     if (typeof previousOnError === 'function') {
       return previousOnError(...args);
@@ -80,8 +80,8 @@ export const registerGlobalErrorHandlers = () => {
     return false;
   };
 
-  const previousOnUnhandledRejection = window.onunhandledrejection;
-  window.onunhandledrejection = event => {
+  const previousOnUnhandledRejection = globalThis.onunhandledrejection;
+  globalThis.onunhandledrejection = event => {
     handleUnhandledRejection(event);
     if (typeof previousOnUnhandledRejection === 'function') {
       return previousOnUnhandledRejection(event);
