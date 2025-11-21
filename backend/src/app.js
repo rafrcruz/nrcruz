@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 
+const { initSentry } = require('./config/sentry');
 const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
+
+initSentry();
 
 const app = express();
 
