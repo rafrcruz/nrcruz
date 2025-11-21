@@ -3,6 +3,8 @@ const apiBaseUrl = rawApiBaseUrl?.trim();
 const rawSentryEnabled = import.meta.env?.VITE_SENTRY_ENABLED;
 const sentryDsn = import.meta.env?.VITE_SENTRY_DSN?.trim();
 const sentryEnabled = ['true', '1', 'yes', 'on'].includes(String(rawSentryEnabled).toLowerCase());
+const defaultLocale = 'pt-BR';
+const defaultTimezone = 'America/Sao_Paulo';
 
 if (!apiBaseUrl && import.meta.env?.DEV) {
   throw new Error('VITE_API_BASE_URL is required to run the frontend');
@@ -10,6 +12,8 @@ if (!apiBaseUrl && import.meta.env?.DEV) {
 
 export const config = {
   env: import.meta.env?.MODE || 'development',
+  locale: defaultLocale,
+  timezone: defaultTimezone,
   api: {
     baseUrl: apiBaseUrl || '',
   },

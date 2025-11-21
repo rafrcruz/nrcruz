@@ -9,6 +9,8 @@ export function AppProvider({ children }) {
     () => ({
       env: config.env,
       apiBaseUrl: config.api.baseUrl,
+      locale: config.locale,
+      timezone: config.timezone,
       config,
     }),
     []
