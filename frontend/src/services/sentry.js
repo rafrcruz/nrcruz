@@ -1,0 +1,63 @@
+import * as Sentry from '@sentry/react';
+import PropTypes from 'prop-types';
+import { config } from '../config/env';
+
+const isSentryEnabled = Boolean(config.sentry?.enabled && config.sentry?.dsn);
+let sentryInitialized = false;
+
+export function initSentry() {
+  if (sentryInitialized || !isSentryEnabled) {
+    return;
+  }
+
+  Sentry.init({
+    dsn: config.sentry.dsn,
+    environment: config.env,
+    integrations: [Sentry.browserTracingIntegration()],
+    tracesSampleRate: 1.0,
+  });
+
+  sentryInitialized = true;
+}
+
+export function captureExceptionFromLogger(message, optionalParams = []) {
+  if (!sentryInitialized) {
+    return;
+  }
+
+  const [maybeError, ...rest] = optionalParams;
+
+  if (maybeError instanceof Error) {
+    Sentry.captureException(maybeError, {
+      level: 'error',
+      extra: { message, params: rest },
+    });
+    return;
+  }
+
+  const hasParams = optionalParams.length > 0;
+  Sentry.captureMessage(message, {
+    level: 'error',
+    ...(hasParams ? { extra: { params: optionalParams } } : {}),
+  });
+}
+
+export function SentryErrorBoundary({ children }) {
+  if (!isSentryEnabled) {
+    return children;
+  }
+
+  return (
+    <Sentry.ErrorBoundary
+      fallbackRender={({ error }) => {
+        throw error;
+      }}
+    >
+      {children}
+    </Sentry.ErrorBoundary>
+  );
+}
+
+SentryErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+};
