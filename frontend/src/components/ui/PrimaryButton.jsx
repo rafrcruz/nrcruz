@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'flowbite-react';
 
 const PrimaryButton = React.forwardRef(({ children, className = '', ...props }, ref) => (
@@ -6,6 +7,11 @@ const PrimaryButton = React.forwardRef(({ children, className = '', ...props }, 
     {children}
   </Button>
 ));
+
+PrimaryButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
 
 PrimaryButton.displayName = 'PrimaryButton';
 
