@@ -31,8 +31,16 @@ jobs:
         run: npm ci
         working-directory: backend
 
+      - name: Install Rollup native binary (Linux)
+        run: npm install --no-save --ignore-scripts --package-lock=false @rollup/rollup-linux-x64-gnu
+        working-directory: backend
+
       - name: Install frontend dependencies
         run: npm ci
+        working-directory: frontend
+
+      - name: Install Rollup native binary (Linux) - frontend
+        run: npm install --no-save --ignore-scripts --package-lock=false @rollup/rollup-linux-x64-gnu
         working-directory: frontend
 
       - name: Test backend (coverage)
