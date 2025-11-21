@@ -16,6 +16,9 @@ const allowedOrigins =
   parsedOrigins.length > 0 ? parsedOrigins : ['http://localhost:3000', 'http://127.0.0.1:3000'];
 const allowCredentials = (process.env.CORS_ALLOW_CREDENTIALS || '').toLowerCase() === 'true';
 const allowNoOrigin = (process.env.CORS_ALLOW_NO_ORIGIN || 'true').toLowerCase() === 'true';
+const defaultLocale = process.env.APP_LOCALE || 'pt-BR';
+// Mantemos os horários de infraestrutura em UTC, mas o fuso horário lógico de negócio é o do Brasil.
+const defaultTimezone = process.env.APP_TIMEZONE || 'America/Sao_Paulo';
 
 const config = {
   env,
@@ -26,6 +29,10 @@ const config = {
     allowedOrigins,
     allowCredentials,
     allowNoOrigin,
+  },
+  localization: {
+    locale: defaultLocale,
+    timezone: defaultTimezone,
   },
   sentry: {
     enabled: sentryEnabled,

@@ -1,12 +1,16 @@
 const { inspect } = require('node:util');
 
+const { config } = require('../config/env');
+
 const formatMessage = (level, messages) => {
   const timestamp = new Date().toISOString();
+  const timezoneTag = config.localization.timezone;
   const formattedMessages = messages
     .map(message => (typeof message === 'string' ? message : inspect(message, { depth: null })))
     .join(' ');
 
-  return `[${timestamp}] [${level}] ${formattedMessages}`;
+  // Os horários registrados permanecem em UTC; o timezone lógico da aplicação é informado para evitar ambiguidades.
+  return `[${timestamp} | TZ:${timezoneTag}] [${level}] ${formattedMessages}`;
 };
 
 const logger = {
