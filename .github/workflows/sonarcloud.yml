@@ -1,0 +1,34 @@
+name: SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Analisa codigo nas pastas backend e frontend.
+          # Pastas de dependencias e build estao excluidas para economizar tempo de analise.
+          # O secret SONAR_TOKEN ja deve estar configurado no repositorio.
+          args: >
+            -Dsonar.projectKey=rafrcruz_nrcruz
+            -Dsonar.organization=rafrcruz
+            -Dsonar.sources=backend,frontend
+            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**,**/coverage/**

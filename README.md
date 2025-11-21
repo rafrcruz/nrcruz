@@ -54,3 +54,9 @@ npm run dev
 - `npm run dev:backend` â€” roda o backend em modo dev.
 - `npm run dev:frontend` â€” roda o frontend em modo dev.
 - `npm run install:all` â€” instala dependÃªncias de backend e frontend.
+
+## Qualidade de Código / SonarCloud
+- Integração com o SonarCloud na organização `rafrcruz`, projeto `rafrcruz_nrcruz`.
+- Cada push ou pull request para a branch `main` dispara análise automática via GitHub Actions.
+- Mantenha o secret `SONAR_TOKEN` configurado no repositório para que a análise funcione.
+- Para disparar a primeira análise, faça um commit em `main` ou abra um pull request apontando para `main`.
