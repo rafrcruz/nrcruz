@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { apiClient } from '../src/services/apiClient';
 import { config } from '../src/config/env';
+import { logger } from '../src/services/logger';
 
 const originalFetch = global.fetch;
 
@@ -39,5 +40,28 @@ describe('apiClient.get', () => {
     expect(global.fetch).toHaveBeenCalledWith('http://example.com/endpoint', {
       method: 'GET',
     });
+  });
+
+  it('logs and throws when fetch rejects with a non-error value', async () => {
+    const errorSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
+    config.api.baseUrl = 'http://example.com';
+    global.fetch.mockRejectedValue('oops');
+
+    await expect(apiClient.get('/api/boom')).rejects.toThrow('Unexpected API error');
+    expect(errorSpy).toHaveBeenCalledWith('Unexpected error during API request', {
+      path: '/api/boom',
+      error: expect.any(Error),
+    });
+  });
+
+  it('rethrows already logged errors without duplicating logs', async () => {
+    const errorSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
+    config.api.baseUrl = 'http://example.com';
+    const alreadyLogged = new Error('server down');
+    alreadyLogged.alreadyLogged = true;
+    global.fetch.mockRejectedValue(alreadyLogged);
+
+    await expect(apiClient.get('/api/fail')).rejects.toThrow('server down');
+    expect(errorSpy).not.toHaveBeenCalled();
   });
 });
