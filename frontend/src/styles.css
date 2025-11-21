@@ -1,0 +1,19 @@
+:root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(120deg, #0f172a, #1e293b);
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
