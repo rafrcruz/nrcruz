@@ -1,4 +1,4 @@
-const { inspect } = require('util');
+const { inspect } = require('node:util');
 
 const formatMessage = (level, messages) => {
   const timestamp = new Date().toISOString();
