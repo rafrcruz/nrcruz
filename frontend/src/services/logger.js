@@ -1,3 +1,5 @@
+import { captureExceptionFromLogger } from './sentry';
+
 const formatMessage = (level, message) => {
   const timestamp = new Date().toISOString();
   return `[${timestamp}] [${level}] ${message}`;
@@ -12,6 +14,7 @@ export const logger = {
   },
   error(message, ...optionalParams) {
     console.error(formatMessage('ERROR', message), ...optionalParams);
+    captureExceptionFromLogger(message, optionalParams);
   },
   debug(message, ...optionalParams) {
     console.debug(formatMessage('DEBUG', message), ...optionalParams);
