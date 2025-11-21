@@ -1,13 +1,10 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+const { defineConfig } = require('vitest/config');
 
-export default defineConfig({
-  plugins: [react()],
+module.exports = defineConfig({
   test: {
-    environment: 'jsdom',
-    globals: true,
+    environment: 'node',
+    clearMocks: true,
     passWithNoTests: true,
-    setupFiles: './src/setupTests.js',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
