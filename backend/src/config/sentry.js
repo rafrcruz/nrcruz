@@ -11,7 +11,7 @@ const initSentry = () => {
   }
 
   if (!config.sentry.dsn) {
-    logger.warn('Sentry is enabled but no DSN was provided.');
+    logger.warn('Sentry habilitado, mas nenhuma DSN foi fornecida.');
     return;
   }
 
@@ -21,7 +21,7 @@ const initSentry = () => {
   });
 
   isInitialized = true;
-  logger.info('Sentry initialized.');
+  logger.info('Sentry inicializado.');
 };
 
 const captureException = error => {
