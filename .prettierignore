@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+coverage
+.env
+.next
+*.log
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.turbo
+.cache
+tmp
+temp
