@@ -10,6 +10,8 @@ initSentry();
 
 const app = express();
 
+app.disable('x-powered-by');
+
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin && config.cors.allowNoOrigin) {
