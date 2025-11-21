@@ -11,6 +11,7 @@ const parsedOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+// Adjust CORS_ALLOWED_ORIGINS in the environment to override these defaults.
 const allowedOrigins =
   parsedOrigins.length > 0 ? parsedOrigins : ['http://localhost:3000', 'http://127.0.0.1:3000'];
 const allowCredentials = (process.env.CORS_ALLOW_CREDENTIALS || '').toLowerCase() === 'true';

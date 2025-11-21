@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const { initSentry } = require('./config/sentry');
 const { config } = require('./config/env');
@@ -25,9 +27,15 @@ const corsOptions = {
     return callback(null, false);
   },
   credentials: config.cors.allowCredentials,
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+}));
+app.use(compression());
 app.use(express.json());
 
 app.use(routes);
