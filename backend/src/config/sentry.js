@@ -6,6 +6,8 @@ const { logger } = require('../utils/logger');
 let isInitialized = false;
 const DEFAULT_TRACES_SAMPLE_RATE = 0.2; // Ajuste aqui caso precise de menos ou mais amostragem.
 
+const SERVICE_NAME = 'nrcruz-backend';
+
 const initSentry = (app) => {
   if (!config.sentry.enabled) {
     return;
@@ -19,6 +21,7 @@ const initSentry = (app) => {
   Sentry.init({
     dsn: config.sentry.dsn,
     environment: config.env,
+    serverName: SERVICE_NAME,
     // Habilita o tracing de performance para cada requisição HTTP.
     tracesSampleRate: config.sentry.tracesSampleRate ?? DEFAULT_TRACES_SAMPLE_RATE,
     integrations: (integrations) => {
@@ -32,6 +35,8 @@ const initSentry = (app) => {
       return sentryIntegrations;
     },
   });
+
+  Sentry.setTag('service.name', SERVICE_NAME);
 
   isInitialized = true;
   logger.info('Sentry inicializado.');
