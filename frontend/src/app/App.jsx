@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import { withProfiler } from '@sentry/react';
 import LoadingFallback from '../components/LoadingFallback';
 import AppShell from '../components/layout/AppShell';
 
@@ -15,4 +16,5 @@ function App() {
   );
 }
 
-export default App;
+// The profiler wraps the root to capture slow renders without altering UI behavior.
+export default withProfiler(App, { name: 'App' });
