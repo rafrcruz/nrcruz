@@ -39,7 +39,7 @@ const reportToSentry = (error, context) => {
 };
 
 export const registerGlobalErrorHandlers = () => {
-  if (typeof globalThis.window === 'undefined') {
+  if (globalThis.window === undefined) {
     return;
   }
 
