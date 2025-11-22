@@ -24,6 +24,16 @@ vi.mock('./services/logger', () => ({
   },
 }));
 
+vi.mock('flowbite-react', async () => {
+  const actual = await vi.importActual('flowbite-react');
+
+  return {
+    __esModule: true,
+    ...actual,
+    Flowbite: ({ children }) => <div data-testid="flowbite">{children}</div>,
+  };
+});
+
 vi.mock('./services/sentry.jsx', () => ({
   SentryErrorBoundary: ({ children }) => <div data-testid="boundary">{children}</div>,
   initSentry: vi.fn(),
