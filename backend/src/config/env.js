@@ -12,6 +12,15 @@ const parseInteger = (value, defaultValue) => {
   const parsed = Number.parseInt(value, 10);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : defaultValue;
 };
+
+const parseSampleRate = (value, defaultValue) => {
+  const parsed = Number.parseFloat(value);
+  if (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) {
+    return parsed;
+  }
+
+  return defaultValue;
+};
 const normalizedPort = Number.parseInt(process.env.PORT, 10);
 const port = Number.isInteger(normalizedPort) && normalizedPort > 0 ? normalizedPort : 3001;
 const sentryEnabled = (process.env.SENTRY_ENABLED || '').toLowerCase() === 'true';
@@ -28,6 +37,8 @@ const allowNoOrigin = (process.env.CORS_ALLOW_NO_ORIGIN || 'true').toLowerCase()
 const defaultLocale = process.env.APP_LOCALE || 'pt-BR';
 // Mantemos os horários de infraestrutura em UTC, mas o fuso horário lógico de negócio é o do Brasil.
 const defaultTimezone = process.env.APP_TIMEZONE || 'America/Sao_Paulo';
+// Ajuste o sample rate de tracing do Sentry (0.0 - 1.0). Manter valores baixos evita estourar limites.
+const sentryTracesSampleRate = parseSampleRate(process.env.SENTRY_TRACES_SAMPLE_RATE, 0.2);
 
 const rateLimitEnabled = parseBoolean(process.env.RATE_LIMIT_ENABLED, true);
 const rateLimitWindowMs = parseInteger(process.env.RATE_LIMIT_WINDOW_MS, 60 * 1000);
@@ -55,6 +66,7 @@ const config = {
   sentry: {
     enabled: sentryEnabled,
     dsn: sentryDsn,
+    tracesSampleRate: sentryTracesSampleRate,
   },
   traffic: {
     rateLimit: {
