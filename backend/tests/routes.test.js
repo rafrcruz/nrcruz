@@ -16,7 +16,7 @@ describe('GET /api/hello', () => {
   it('returns the hello message', async () => {
     vi.spyOn(helloService, 'getHelloMessage').mockReturnValue('NRCruz app');
 
-    const response = await request(app).get('/api/hello');
+    const response = await request(app).get('/api/hello').set('User-Agent', 'vitest');
 
     expect(response.status).toBe(200);
     expect(response.text).toBe('NRCruz app');
@@ -27,7 +27,7 @@ describe('GET /api/hello', () => {
       throw new Error('Boom');
     });
 
-    const response = await request(app).get('/api/hello');
+    const response = await request(app).get('/api/hello').set('User-Agent', 'vitest');
 
     expect(response.status).toBe(500);
     expect(response.body).toEqual({ error: { message: 'Erro interno do servidor.' } });

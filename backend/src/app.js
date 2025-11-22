@@ -7,6 +7,7 @@ const { config } = require('./config/env');
 const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { securityHeaders } = require('./middlewares/securityHeaders');
+const { rateLimiter, userAgentFilter } = require('./middlewares/trafficControl');
 
 initSentry();
 
@@ -32,6 +33,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(securityHeaders);
+app.use(userAgentFilter);
+app.use(rateLimiter);
 app.use(compression());
 app.use(express.json());
 
