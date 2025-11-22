@@ -14,7 +14,7 @@ export function initSentry() {
     dsn: config.sentry.dsn,
     environment: config.env,
     integrations: [Sentry.browserTracingIntegration()],
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 1,
   });
 
   sentryInitialized = true;
