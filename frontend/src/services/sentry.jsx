@@ -1,4 +1,10 @@
-import * as Sentry from '@sentry/react';
+import {
+  ErrorBoundary,
+  browserTracingIntegration,
+  captureException,
+  captureMessage,
+  init,
+} from '@sentry/react';
 import PropTypes from 'prop-types';
 import { config } from '../config/env';
 
@@ -10,10 +16,10 @@ export function initSentry() {
     return;
   }
 
-  Sentry.init({
+  init({
     dsn: config.sentry.dsn,
     environment: config.env,
-    integrations: [Sentry.browserTracingIntegration()],
+    integrations: [browserTracingIntegration()],
     tracesSampleRate: 1,
   });
 
@@ -26,12 +32,12 @@ export function captureWithSentry(error, context) {
   }
 
   if (error instanceof Error) {
-    Sentry.captureException(error, context);
+    captureException(error, context);
     return;
   }
 
   const message = typeof error === 'string' ? error : 'Unknown error captured without details';
-  Sentry.captureMessage(message, { level: 'error', ...context });
+  captureMessage(message, { level: 'error', ...context });
 }
 
 export function isSentryReady() {
@@ -49,7 +55,7 @@ export function captureExceptionFromLogger(message, optionalParams = []) {
   const [maybeError, ...rest] = optionalParams;
 
   if (maybeError instanceof Error) {
-    Sentry.captureException(maybeError, {
+    captureException(maybeError, {
       level: 'error',
       extra: { message, params: rest },
     });
@@ -57,7 +63,7 @@ export function captureExceptionFromLogger(message, optionalParams = []) {
   }
 
   const hasParams = optionalParams.length > 0;
-  Sentry.captureMessage(message, {
+  captureMessage(message, {
     level: 'error',
     ...(hasParams ? { extra: { params: optionalParams } } : {}),
   });
@@ -69,13 +75,13 @@ export function SentryErrorBoundary({ children }) {
   }
 
   return (
-    <Sentry.ErrorBoundary
+    <ErrorBoundary
       fallbackRender={({ error }) => {
         throw error;
       }}
     >
       {children}
-    </Sentry.ErrorBoundary>
+    </ErrorBoundary>
   );
 }
 
