@@ -51,6 +51,10 @@ npm run dev
 ```
 5) Acesse a URL mostrada pelo Vite (ex.: `http://localhost:5173`). A pÃ¡gina inicial busca o endpoint `/api/hello`, espera `NRCruz app` e exibe `Hello NRCruz app`.
 
+### AnÃ¡lise opcional do bundle
+- Gere um relatÃ³rio visual do bundle executando `npm run analyze` dentro de `frontend/`.
+- O arquivo `bundle-report.html` serÃ¡ criado na raiz de `frontend/`; abra-o no navegador para ver a composiÃ§Ã£o do bundle.
+
 ## Ordem sugerida para levantar
 1) Inicie o backend (`npm run dev` em `backend/`).
 2) Depois o frontend (`npm run dev` em `frontend/`).
