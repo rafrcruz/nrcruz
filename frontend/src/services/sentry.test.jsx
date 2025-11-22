@@ -43,7 +43,13 @@ describe('sentry service', () => {
       dsn: 'dsn-token',
       environment: 'test',
       integrations: ['trace'],
-      tracesSampleRate: 1.0,
+      tracesSampleRate: 0.2,
+    });
+    expect(browserTracingIntegrationMock).toHaveBeenCalledWith({
+      instrumentNavigation: true,
+      instrumentPageLoad: true,
+      traceFetch: true,
+      tracePropagationTargets: ['http://localhost:3001', /^\//],
     });
     expect(sentryModule.isSentryReady()).toEqual({ enabled: true, initialized: true });
   });
