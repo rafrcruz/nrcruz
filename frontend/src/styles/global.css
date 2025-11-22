@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Keep a consistent, visible outline on keyboard focus without changing layout. */
+:where(a, button, input, textarea, select, summary, [role='button'], [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+  transition: outline-offset 0.15s ease;
+}
+
 :root {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(120deg, #0f172a, #1e293b);

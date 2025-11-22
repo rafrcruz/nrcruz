@@ -6,7 +6,7 @@ function HomePage() {
   if (loading) {
     return (
       <main className="container" aria-busy="true" aria-live="polite">
-        Carregando...
+        <h1 className="m-0 text-inherit font-inherit">Carregando...</h1>
       </main>
     );
   }
@@ -14,14 +14,15 @@ function HomePage() {
   if (error) {
     return (
       <main className="container" role="alert" aria-live="assertive">
-        Erro ao carregar mensagem.
+        <h1 className="m-0 text-inherit font-inherit">Erro ao carregar mensagem.</h1>
       </main>
     );
   }
 
   return (
     <main className="container" aria-live="polite">
-      Hello {message}
+      {/** Use a top-level heading to keep semantic structure consistent across pages. */}
+      <h1 className="m-0 text-inherit font-inherit">Hello {message}</h1>
     </main>
   );
 }
