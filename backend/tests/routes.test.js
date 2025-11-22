@@ -3,7 +3,7 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 const request = require('supertest');
-const helloService = require('../src/services/helloService');
+const helloService = require('../src/modules/hello/hello.service');
 const { config } = require('../src/config/env');
 const { version } = require('../package.json');
 const { app } = require('../src/app');
