@@ -1,12 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
-const helmet = require('helmet');
 
 const { initSentry } = require('./config/sentry');
 const { config } = require('./config/env');
 const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
+const { securityHeaders } = require('./middlewares/securityHeaders');
 
 initSentry();
 
@@ -31,10 +31,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'cross-origin' },
-  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
-}));
+app.use(securityHeaders);
 app.use(compression());
 app.use(express.json());
 
