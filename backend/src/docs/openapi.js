@@ -1,12 +1,40 @@
-const { version } = require('../../package.json');
+const { version: packageVersion } = require('../../package.json');
 
 const openApiSpecification = {
   openapi: '3.0.3',
   info: {
     title: 'NRCruz API',
-    version,
+    version: '1.0.0',
     description:
       'Documentação pública dos endpoints do backend NRCruz. Atualize este documento ao adicionar novas rotas.',
+  },
+  tags: [
+    {
+      name: 'API Versioning',
+      description:
+        'A versão atual da API é a v1. Novas versões podem ser adicionadas criando namespaces dedicados (ex.: /v2), e mantendo as rotas existentes para compatibilidade. Schemas podem ser duplicados ou ajustados em components para acomodar breaking changes, e múltiplas versões podem coexistir na documentação para facilitar migrações.',
+    },
+    {
+      name: 'v1',
+      description: 'Endpoints da versão 1 da API. Todos os paths atuais pertencem a esta versão.',
+    },
+    {
+      name: 'Hello',
+      description: 'Endpoints relacionados a mensagens de saudação e exemplos simples.',
+    },
+    {
+      name: 'Healthcheck',
+      description: 'Endpoints de monitoramento de disponibilidade e status da aplicação.',
+    },
+  ],
+  'x-api-versioning': {
+    overview:
+      'A documentação suporta múltiplas versões em paralelo. A versão 1 é a base atual e novas versões devem ser adicionadas sem remover a anterior.',
+    guidelines: [
+      'Crie novos namespaces de rotas versionadas quando houver breaking changes (por exemplo, /v2).',
+      'Duplique ou ajuste schemas em components para refletir mudanças incompatíveis em novas versões.',
+      'Mantenha tags e seções separadas para cada versão na documentação, permitindo consulta paralela.',
+    ],
   },
   servers: [
     {
@@ -17,6 +45,7 @@ const openApiSpecification = {
   paths: {
     '/api/hello': {
       get: {
+        tags: ['v1', 'Hello'],
         summary: 'Retorna a mensagem de saudação padrão.',
         description: 'Endpoint público que responde com uma string simples.',
         responses: {
@@ -38,6 +67,7 @@ const openApiSpecification = {
     },
     '/health': {
       get: {
+        tags: ['v1', 'Healthcheck'],
         summary: 'Healthcheck da API.',
         description: 'Retorna o status da aplicação e informações de ambiente.',
         responses: {
@@ -115,7 +145,7 @@ const openApiSpecification = {
           },
           version: {
             type: 'string',
-            example: version,
+            example: packageVersion,
           },
         },
         required: ['status', 'env', 'version'],
