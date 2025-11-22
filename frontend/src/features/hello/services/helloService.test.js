@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { apiClient } from './apiClient';
+import { apiClient } from '../../../services/apiClient';
 import { getHelloMessage } from './helloService';
 
-vi.mock('./apiClient');
+vi.mock('../../../services/apiClient');
 
 describe('helloService', () => {
   it('requests the hello message from the API', async () => {

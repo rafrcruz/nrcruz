@@ -1,4 +1,4 @@
-const helloRepository = require('../repositories/helloRepository');
+const helloRepository = require('./hello.repository');
 
 const getHelloMessage = () => helloRepository.fetchHelloMessage();
 

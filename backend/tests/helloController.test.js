@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
-const helloService = require('../src/services/helloService');
-const { getHello } = require('../src/controllers/helloController');
+const helloService = require('../src/modules/hello/hello.service');
+const { getHello } = require('../src/modules/hello/hello.controller');
 
 beforeEach(() => {
   vi.restoreAllMocks();

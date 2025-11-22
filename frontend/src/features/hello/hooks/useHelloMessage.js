@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getHelloMessage } from '../services/helloService';
-import { logger } from '../services/logger';
+import { logger } from '../../../services/logger';
 
 export function useHelloMessage() {
   const [message, setMessage] = useState('');

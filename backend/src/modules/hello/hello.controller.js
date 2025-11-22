@@ -1,4 +1,4 @@
-const helloService = require('../services/helloService');
+const helloService = require('./hello.service');
 
 const getHello = (_req, res, next) => {
   try {

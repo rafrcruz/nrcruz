@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import { apiClient } from '../../../services/apiClient';
 
 export async function getHelloMessage() {
   const response = await apiClient.get('/api/hello');
