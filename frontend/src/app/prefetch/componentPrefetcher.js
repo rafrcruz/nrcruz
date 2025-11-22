@@ -3,7 +3,8 @@ import { lazy } from 'react';
 // Registry that keeps a memoized loader for each lazy component/screen.
 // The loaders are intentionally simple to avoid triggering aggressive downloads
 // and can be called from interaction signals (hover, focus, viewport) to
-// pre-warm the bundle before navigation.
+// pre-warm the bundle before navigation. See `prefetch-guidelines.md` and
+// `componentPrefetchExample.js` for usage reminders that preserve UX stability.
 const componentRegistry = new Map();
 
 function memoizedLoader(importer) {
