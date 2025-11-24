@@ -30,7 +30,7 @@ vi.mock('flowbite-react', async () => {
   return {
     __esModule: true,
     ...actual,
-    Flowbite: ({ children }) => <div data-testid="flowbite">{children}</div>,
+    ThemeProvider: ({ children }) => <div data-testid="theme-provider">{children}</div>,
   };
 });
 

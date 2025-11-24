@@ -23,6 +23,7 @@ const parseSampleRate = (value, defaultValue) => {
 };
 const normalizedPort = Number.parseInt(process.env.PORT, 10);
 const port = Number.isInteger(normalizedPort) && normalizedPort > 0 ? normalizedPort : 3001;
+const databaseUrl = process.env.DATABASE_URL;
 const sentryEnabled = (process.env.SENTRY_ENABLED || '').toLowerCase() === 'true';
 const sentryDsn = process.env.SENTRY_DSN;
 const parsedOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
@@ -30,8 +31,18 @@ const parsedOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
   .map(origin => origin.trim())
   .filter(Boolean);
 // Adjust CORS_ALLOWED_ORIGINS in the environment to override these defaults.
+// Include Vite dev/preview ports so the frontend can call the API without CORS errors out of the box.
 const allowedOrigins =
-  parsedOrigins.length > 0 ? parsedOrigins : ['http://localhost:3000', 'http://127.0.0.1:3000'];
+  parsedOrigins.length > 0
+    ? parsedOrigins
+    : [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'http://localhost:4173',
+        'http://127.0.0.1:4173',
+      ];
 const allowCredentials = (process.env.CORS_ALLOW_CREDENTIALS || '').toLowerCase() === 'true';
 const allowNoOrigin = (process.env.CORS_ALLOW_NO_ORIGIN || 'true').toLowerCase() === 'true';
 const defaultLocale = process.env.APP_LOCALE || 'pt-BR';
@@ -53,6 +64,9 @@ const config = {
   env,
   server: {
     port,
+  },
+  database: {
+    url: databaseUrl,
   },
   cors: {
     allowedOrigins,

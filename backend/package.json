@@ -5,9 +5,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "db:migrate": "node -r dotenv/config ./node_modules/node-pg-migrate/bin/node-pg-migrate.js up -m db/migrations",
+    "db:migrate:rollback": "node -r dotenv/config ./node_modules/node-pg-migrate/bin/node-pg-migrate.js down -m db/migrations -c 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
@@ -19,17 +22,23 @@
     "helmet": "^8.1.0",
     "joi": "^18.0.2",
     "nrcruz-monorepo": "file:..",
+    "pg": "^8.13.1",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^4.0.13",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
+    "node-pg-migrate": "7.6.1",
     "nodemon": "^3.1.0",
     "prettier": "^3.3.3",
     "rollup": "^4.53.3",
     "supertest": "^7.1.4",
-    "vitest": "^1.6.0"
+    "vitest": "^4.0.13"
+  },
+  "overrides": {
+    "esbuild": "0.25.0",
+    "vite": "6.4.1"
   }
 }

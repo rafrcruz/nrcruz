@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Flowbite } from 'flowbite-react';
+import { ThemeProvider } from 'flowbite-react';
 import { AppProvider } from './context/AppContext';
 import App from './app/App';
 import './index.css';
@@ -18,11 +18,11 @@ logger.info('Starting React application', { env: config.env });
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <SentryErrorBoundary>
-      <Flowbite theme={{ theme: flowbiteTheme }}>
+      <ThemeProvider theme={flowbiteTheme}>
         <AppProvider>
           <App />
         </AppProvider>
-      </Flowbite>
+      </ThemeProvider>
     </SentryErrorBoundary>
   </React.StrictMode>,
 );
