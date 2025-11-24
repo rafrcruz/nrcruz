@@ -2,8 +2,8 @@ const { config } = require('../config/env');
 
 const rateLimitStore = new Map();
 
-const shouldSkipPath = (path) =>
-  config.traffic.rateLimit.skipPaths.some((prefix) => path.startsWith(prefix));
+const shouldSkipPath = path =>
+  config.traffic.rateLimit.skipPaths.some(prefix => path.startsWith(prefix));
 
 /**
  * Lightweight, in-memory rate limiter for small deployments.
@@ -32,7 +32,9 @@ const rateLimiter = (req, res, next) => {
   if (entry.count > maxRequests) {
     const retryAfterSeconds = Math.ceil((windowMs - (now - entry.start)) / 1000);
     res.set('Retry-After', retryAfterSeconds.toString());
-    return res.status(429).json({ error: { message: 'Too many requests, please try again later.' } });
+    return res
+      .status(429)
+      .json({ error: { message: 'Too many requests, please try again later.' } });
   }
 
   return next();
@@ -65,7 +67,7 @@ const userAgentFilter = (req, res, next) => {
     return res.status(400).json({ error: { message: 'User-Agent header is required.' } });
   }
 
-  if (blockedUserAgents.some((pattern) => pattern.test(userAgent))) {
+  if (blockedUserAgents.some(pattern => pattern.test(userAgent))) {
     return res
       .status(403)
       .json({ error: { message: 'Automated requests are not allowed for this resource.' } });

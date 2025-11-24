@@ -8,7 +8,7 @@ const DEFAULT_TRACES_SAMPLE_RATE = 0.2; // Ajuste aqui caso precise de menos ou 
 
 const SERVICE_NAME = 'nrcruz-backend';
 
-const initSentry = (app) => {
+const initSentry = app => {
   if (!config.sentry.enabled) {
     return;
   }
@@ -24,7 +24,7 @@ const initSentry = (app) => {
     serverName: SERVICE_NAME,
     // Habilita o tracing de performance para cada requisição HTTP.
     tracesSampleRate: config.sentry.tracesSampleRate ?? DEFAULT_TRACES_SAMPLE_RATE,
-    integrations: (integrations) => {
+    integrations: integrations => {
       const sentryIntegrations = [...integrations];
 
       // A integração do Express ativa spans automáticos para middlewares e handlers.

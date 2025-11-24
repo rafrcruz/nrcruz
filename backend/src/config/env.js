@@ -27,7 +27,7 @@ const sentryEnabled = (process.env.SENTRY_ENABLED || '').toLowerCase() === 'true
 const sentryDsn = process.env.SENTRY_DSN;
 const parsedOrigins = (process.env.CORS_ALLOWED_ORIGINS || '')
   .split(',')
-  .map((origin) => origin.trim())
+  .map(origin => origin.trim())
   .filter(Boolean);
 // Adjust CORS_ALLOWED_ORIGINS in the environment to override these defaults.
 const allowedOrigins =
@@ -45,7 +45,7 @@ const rateLimitWindowMs = parseInteger(process.env.RATE_LIMIT_WINDOW_MS, 60 * 10
 const rateLimitMaxRequests = parseInteger(process.env.RATE_LIMIT_MAX_REQUESTS, 100);
 const rateLimitSkipPaths = (process.env.RATE_LIMIT_SKIP_PATHS || '/health')
   .split(',')
-  .map((path) => path.trim())
+  .map(path => path.trim())
   .filter(Boolean);
 const botFilterEnabled = parseBoolean(process.env.BOT_FILTER_ENABLED, true);
 
