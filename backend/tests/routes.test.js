@@ -42,3 +42,19 @@ describe('GET /health', () => {
     expect(response.body).toEqual({ status: 'ok', env: config.env, version });
   });
 });
+
+describe('CORS configuration', () => {
+  it('allows whitelisted origins', async () => {
+    const response = await request(app).get('/health').set('Origin', 'http://localhost:3000');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['access-control-allow-origin']).toBe('http://localhost:3000');
+  });
+
+  it('denies CORS for unknown origins', async () => {
+    const response = await request(app).get('/health').set('Origin', 'http://malicious.test');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['access-control-allow-origin']).toBeUndefined();
+  });
+});

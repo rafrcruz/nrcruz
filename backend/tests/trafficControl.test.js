@@ -38,6 +38,24 @@ describe('traffic controls', () => {
     expect(third.body.error.message).toMatch(/Too many requests/i);
   });
 
+  it('resets counts after the configured window elapses', async () => {
+    vi.useFakeTimers();
+    try {
+      const app = reloadApp();
+
+      const agent = request.agent(app);
+      await agent.get('/api/hello').set('User-Agent', 'vitest-agent');
+      await agent.get('/api/hello').set('User-Agent', 'vitest-agent');
+
+      vi.advanceTimersByTime(1500);
+      const response = await agent.get('/api/hello').set('User-Agent', 'vitest-agent');
+
+      expect(response.status).toBe(200);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('rejects empty user agents', async () => {
     const app = reloadApp();
 
@@ -45,5 +63,14 @@ describe('traffic controls', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.error.message).toMatch(/User-Agent header is required/);
+  });
+
+  it('blocks known bot signatures', async () => {
+    const app = reloadApp();
+
+    const response = await request(app).get('/api/hello').set('User-Agent', 'curl/8.0');
+
+    expect(response.status).toBe(403);
+    expect(response.body.error.message).toMatch(/Automated requests are not allowed/);
   });
 });

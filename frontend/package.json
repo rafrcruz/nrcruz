@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "analyze": "ANALYZE=true vite build",
+    "analyze": "cross-env ANALYZE=true vite build && start bundle-report.html",
     "preview": "vite preview",
     "start": "npm run dev",
     "lint": "eslint .",
@@ -27,6 +27,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/coverage-v8": "^4.0.13",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

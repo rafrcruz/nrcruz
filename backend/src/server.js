@@ -4,6 +4,13 @@ const { logger } = require('./utils/logger');
 
 const port = config.server.port;
 
-app.listen(port, () => {
-  logger.info(`Backend iniciado em http://localhost:${port} (ambiente: ${config.env})`);
-});
+const startServer = () =>
+  app.listen(port, () => {
+    logger.info(`Backend iniciado em http://localhost:${port} (ambiente: ${config.env})`);
+  });
+
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
+
+module.exports = { startServer };
