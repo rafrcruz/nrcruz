@@ -58,7 +58,7 @@ export function consumePrefetchedData(key) {
  * discarded.
  */
 export function clearPrefetch(key) {
-  if (typeof key === 'undefined') {
+  if (key === undefined) {
     dataCache.clear();
     return;
   }
