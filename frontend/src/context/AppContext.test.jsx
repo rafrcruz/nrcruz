@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { AppProvider, useAppContext } from './AppContext';
+import { vi } from 'vitest';
+import { AppProvider, ensureAppContext, useAppContext } from './AppContext';
 import { config } from '../config/env';
 
 describe('AppContext', () => {
@@ -13,8 +14,10 @@ describe('AppContext', () => {
   });
 
   it('throws when used outside of provider', () => {
-    expect(() => renderHook(() => useAppContext())).toThrow(
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    expect(() => ensureAppContext(null)).toThrow(
       'useAppContext must be used within an AppProvider',
     );
+    consoleErrorSpy.mockRestore();
   });
 });

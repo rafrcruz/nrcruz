@@ -23,12 +23,16 @@ AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function useAppContext() {
-  const context = useContext(AppContext);
+export function ensureAppContext(context) {
   if (!context) {
     throw new Error('useAppContext must be used within an AppProvider');
   }
   return context;
+}
+
+export function useAppContext() {
+  const context = useContext(AppContext);
+  return ensureAppContext(context);
 }
 
 export { AppContext };
