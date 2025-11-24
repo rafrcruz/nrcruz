@@ -1,5 +1,4 @@
 import { theme as flowbiteBaseTheme } from 'flowbite-react';
-import tokens from './design-tokens';
 
 // Flowbite theme aligned with the design tokens so that UI kit components
 // and Tailwind utilities share the same source of truth.
@@ -40,4 +39,4 @@ export const flowbiteTheme = {
   },
 };
 
-export const designTokens = tokens;
+export { default as designTokens } from './design-tokens';

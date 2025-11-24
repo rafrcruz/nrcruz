@@ -61,7 +61,7 @@ const userAgentFilter = (req, res, next) => {
 
   const userAgent = req.get('user-agent');
 
-  if (!userAgent || !userAgent.trim()) {
+  if (!userAgent?.trim()) {
     return res.status(400).json({ error: { message: 'User-Agent header is required.' } });
   }
 
