@@ -5,7 +5,7 @@ const { initSentry, getRequestHandler, getErrorHandler } = require('./config/sen
 const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { securityHeaders } = require('./middlewares/securityHeaders');
-const { corsMiddleware } = require('./middlewares/cors');
+const { createCorsMiddleware } = require('./middlewares/cors');
 const { rateLimiter, userAgentFilter } = require('./middlewares/trafficControl');
 
 const app = express();
@@ -14,7 +14,7 @@ const app = express();
 initSentry(app);
 
 app.disable('x-powered-by');
-app.use(corsMiddleware);
+app.use(createCorsMiddleware());
 app.use(securityHeaders);
 app.use(userAgentFilter);
 app.use(rateLimiter);

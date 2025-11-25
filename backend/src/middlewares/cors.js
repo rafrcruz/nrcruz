@@ -1,34 +1,27 @@
-const cors = require('cors');
-const { config } = require('../config/env');
+const buildCorsOptions = corsConfig => {
+  const allowedOrigins = new Set(corsConfig.allowedOrigins);
 
-const allowedOrigins = new Set(config.cors.allowedOrigins);
-const defaultOptions = { optionsSuccessStatus: 204 };
+  return {
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, corsConfig.allowNoOrigin);
+      }
 
-const corsMiddleware = (req, res, next) => {
-  const requestOrigin = req.header('Origin');
+      if (allowedOrigins.has(origin)) {
+        return callback(null, true);
+      }
 
-  const credentialsEnabled = config.cors.allowCredentials && Boolean(requestOrigin);
-
-  if (!requestOrigin) {
-    if (!config.cors.allowNoOrigin) {
-      return next();
-    }
-
-    const options = { ...defaultOptions, origin: '*', credentials: credentialsEnabled };
-    return cors(options)(req, res, next);
-  }
-
-  if (!allowedOrigins.has(requestOrigin)) {
-    return next();
-  }
-
-  const options = {
-    ...defaultOptions,
-    origin: requestOrigin,
-    credentials: credentialsEnabled,
+      return callback(null, false);
+    },
+    credentials: corsConfig.allowCredentials,
+    optionsSuccessStatus: 204,
   };
-
-  return cors(options)(req, res, next);
 };
 
-module.exports = { corsMiddleware };
+const createCorsMiddleware = () => {
+  const cors = require('cors');
+  const { config } = require('../config/env');
+  return cors(buildCorsOptions(config.cors));
+};
+
+module.exports = { createCorsMiddleware, buildCorsOptions };
