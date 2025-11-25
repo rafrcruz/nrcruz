@@ -6,7 +6,9 @@ const listMock = vi.fn();
 
 const loadModule = async (configOverrides = {}) => {
   vi.resetModules();
-  vi.doMock('@vercel/blob', () => ({ put: putMock, del: delMock, list: listMock }), { virtual: true });
+  vi.doMock('@vercel/blob', () => ({ put: putMock, del: delMock, list: listMock }), {
+    virtual: true,
+  });
   const blobStorage = await import('../src/utils/blobStorage');
   blobStorage.__setBlobConfig({
     token: 'test-token',
@@ -26,9 +28,9 @@ describe('blobStorage utils', () => {
   it('throws when upload is attempted without token', async () => {
     const blobStorage = await loadModule({ token: '' });
 
-    await expect(
-      blobStorage.uploadBlob({ key: 'file.txt', data: 'payload' })
-    ).rejects.toThrow('BLOB_READ_WRITE_TOKEN is not configured');
+    await expect(blobStorage.uploadBlob({ key: 'file.txt', data: 'payload' })).rejects.toThrow(
+      'BLOB_READ_WRITE_TOKEN is not configured'
+    );
   });
 
   it('uploads blob with normalized key and fallback public url', async () => {
@@ -73,7 +75,9 @@ describe('blobStorage utils', () => {
 
     const result = await blobStorage.deleteBlob('/path/file.txt');
 
-    expect(delMock).toHaveBeenCalledWith('https://blob.example.com/path/file.txt', { token: 'test-token' });
+    expect(delMock).toHaveBeenCalledWith('https://blob.example.com/path/file.txt', {
+      token: 'test-token',
+    });
     expect(result).toEqual({ deleted: true, target: 'https://blob.example.com/path/file.txt' });
   });
 
