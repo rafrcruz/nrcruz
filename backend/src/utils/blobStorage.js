@@ -71,4 +71,9 @@ module.exports = {
   deleteBlob,
   listBlobs,
   resolvePublicUrl,
+  __setBlobConfig: overrides => {
+    if (!overrides) return;
+    if (overrides.token !== undefined) config.blobStorage.token = overrides.token;
+    if (overrides.baseUrl !== undefined) config.blobStorage.baseUrl = overrides.baseUrl;
+  },
 };

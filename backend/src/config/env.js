@@ -61,7 +61,7 @@ const rateLimitSkipPaths = (process.env.RATE_LIMIT_SKIP_PATHS || '/health')
 const botFilterEnabled = parseBoolean(process.env.BOT_FILTER_ENABLED, true);
 const blobReadWriteToken = process.env.BLOB_READ_WRITE_TOKEN || '';
 const blobBaseUrl =
-  (process.env.BLOB_BASE_URL && process.env.BLOB_BASE_URL.trim()) ||
+  process.env.BLOB_BASE_URL?.trim() ||
   'https://bvnmlsi45glh5ix7.public.blob.vercel-storage.com';
 const blobStoreId = process.env.BLOB_STORE_ID || 'store_BvNmLSi45Glh5iX7';
 const blobStoreName = process.env.BLOB_STORE_NAME || 'nrcruz-backend-blob';
