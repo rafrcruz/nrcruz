@@ -38,7 +38,7 @@ describe('validateRequest middleware', () => {
             path: ['age'],
           }),
         ],
-      }),
+      })
     );
   });
 });

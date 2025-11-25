@@ -37,7 +37,7 @@ describe('server bootstrap', () => {
 
     expect(listenMock).toHaveBeenCalledWith(5050, expect.any(Function));
     expect(infoMock).toHaveBeenCalledWith(
-      'Backend iniciado em http://localhost:5050 (ambiente: test)',
+      'Backend iniciado em http://localhost:5050 (ambiente: test)'
     );
   });
 });

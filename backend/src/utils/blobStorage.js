@@ -10,14 +10,21 @@ const getBlobSdk = () => {
 
 const requireToken = () => {
   if (!config.blobStorage.token) {
-    throw new Error('BLOB_READ_WRITE_TOKEN is not configured. Set it in the environment before using blob storage.');
+    throw new Error(
+      'BLOB_READ_WRITE_TOKEN is not configured. Set it in the environment before using blob storage.'
+    );
   }
 };
 
 const normalizeKey = key => key.replace(/^\/+/, '');
 const resolvePublicUrl = key => `${config.blobStorage.baseUrl}/${normalizeKey(key)}`;
 
-const uploadBlob = async ({ key, data, contentType = 'application/octet-stream', access = 'public' }) => {
+const uploadBlob = async ({
+  key,
+  data,
+  contentType = 'application/octet-stream',
+  access = 'public',
+}) => {
   requireToken();
 
   if (!key) {
