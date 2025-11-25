@@ -65,6 +65,13 @@ const blobBaseUrl =
 const blobStoreId = process.env.BLOB_STORE_ID || 'store_BvNmLSi45Glh5iX7';
 const blobStoreName = process.env.BLOB_STORE_NAME || 'nrcruz-backend-blob';
 const blobRegion = process.env.BLOB_REGION || 'iad1';
+const trimTrailingSlashes = url => {
+  let normalized = url;
+  while (normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+  return normalized;
+};
 
 const config = {
   env,
@@ -101,7 +108,7 @@ const config = {
   },
   blobStorage: {
     token: blobReadWriteToken,
-    baseUrl: blobBaseUrl.replace(/\/+$/, ''),
+    baseUrl: trimTrailingSlashes(blobBaseUrl),
     storeId: blobStoreId,
     storeName: blobStoreName,
     region: blobRegion,

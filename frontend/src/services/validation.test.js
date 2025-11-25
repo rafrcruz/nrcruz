@@ -64,9 +64,10 @@ describe('backend validation helpers', () => {
       raw: null,
     });
 
-    expect(normalizeBackendValidationError({ errors: { age: 20, misc: [1, 'ok', {}] } }))
-      .toMatchObject({
-        fieldErrors: { age: ['20'], misc: ['1', 'ok'] },
-      });
+    expect(
+      normalizeBackendValidationError({ errors: { age: 20, misc: [1, 'ok', {}] } })
+    ).toMatchObject({
+      fieldErrors: { age: ['20'], misc: ['1', 'ok'] },
+    });
   });
 });
