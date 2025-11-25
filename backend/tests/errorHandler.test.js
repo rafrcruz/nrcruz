@@ -4,12 +4,15 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 const clearRequireCache = () => {
-  ['@sentry/node', '../src/config/sentry', '../src/config/env', '../src/middlewares/errorHandler'].forEach(
-    moduleId => {
-      const resolved = require.resolve(moduleId);
-      delete require.cache[resolved];
-    },
-  );
+  [
+    '@sentry/node',
+    '../src/config/sentry',
+    '../src/config/env',
+    '../src/middlewares/errorHandler',
+  ].forEach(moduleId => {
+    const resolved = require.resolve(moduleId);
+    delete require.cache[resolved];
+  });
 };
 
 const setupErrorHandler = () => {
@@ -58,7 +61,7 @@ describe('errorHandler middleware', () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         error: expect.objectContaining({ details: err.details }),
-      }),
+      })
     );
     expect(captureSpy).not.toHaveBeenCalled();
   });

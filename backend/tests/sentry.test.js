@@ -4,18 +4,24 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 const clearRequireCache = () => {
-  ['@sentry/node', '../src/config/sentry', '../src/config/env', '../src/utils/logger'].forEach(moduleId => {
-    const resolved = require.resolve(moduleId);
-    delete require.cache[resolved];
-  });
+  ['@sentry/node', '../src/config/sentry', '../src/config/env', '../src/utils/logger'].forEach(
+    moduleId => {
+      const resolved = require.resolve(moduleId);
+      delete require.cache[resolved];
+    }
+  );
 };
 
 const setupSentrySpies = () => {
   const sentryLib = require('@sentry/node');
 
   const initSpy = vi.spyOn(sentryLib, 'init').mockImplementation(() => {});
-  const expressIntegrationSpy = vi.spyOn(sentryLib, 'expressIntegration').mockReturnValue('expressIntegration');
-  const expressErrorHandlerSpy = vi.spyOn(sentryLib, 'expressErrorHandler').mockReturnValue('errorHandler');
+  const expressIntegrationSpy = vi
+    .spyOn(sentryLib, 'expressIntegration')
+    .mockReturnValue('expressIntegration');
+  const expressErrorHandlerSpy = vi
+    .spyOn(sentryLib, 'expressErrorHandler')
+    .mockReturnValue('errorHandler');
   const captureExceptionSpy = vi.spyOn(sentryLib, 'captureException').mockImplementation(() => {});
   const getIsolationScopeSpy = vi.spyOn(sentryLib, 'getIsolationScope').mockReturnValue({
     setSDKProcessingMetadata: vi.fn(),
