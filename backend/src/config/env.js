@@ -59,6 +59,13 @@ const rateLimitSkipPaths = (process.env.RATE_LIMIT_SKIP_PATHS || '/health')
   .map(path => path.trim())
   .filter(Boolean);
 const botFilterEnabled = parseBoolean(process.env.BOT_FILTER_ENABLED, true);
+const blobReadWriteToken = process.env.BLOB_READ_WRITE_TOKEN || '';
+const blobBaseUrl =
+  (process.env.BLOB_BASE_URL && process.env.BLOB_BASE_URL.trim()) ||
+  'https://bvnmlsi45glh5ix7.public.blob.vercel-storage.com';
+const blobStoreId = process.env.BLOB_STORE_ID || 'store_BvNmLSi45Glh5iX7';
+const blobStoreName = process.env.BLOB_STORE_NAME || 'nrcruz-backend-blob';
+const blobRegion = process.env.BLOB_REGION || 'iad1';
 
 const config = {
   env,
@@ -92,6 +99,13 @@ const config = {
     botFilter: {
       enabled: botFilterEnabled,
     },
+  },
+  blobStorage: {
+    token: blobReadWriteToken,
+    baseUrl: blobBaseUrl.replace(/\/+$/, ''),
+    storeId: blobStoreId,
+    storeName: blobStoreName,
+    region: blobRegion,
   },
 };
 
