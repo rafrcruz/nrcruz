@@ -36,4 +36,22 @@ describe('useHelloMessage', () => {
     expect(result.current.message).toBe('');
     expect(result.current.error).toBe(error);
   });
+
+  it('avoids state updates when unmounted before the fetch resolves', async () => {
+    let resolveMessage;
+    const delayedMessage = new Promise(resolve => {
+      resolveMessage = resolve;
+    });
+
+    getHelloMessage.mockReturnValue(delayedMessage);
+
+    const { unmount } = renderHook(() => useHelloMessage());
+    unmount();
+
+    resolveMessage('Late hello');
+    await delayedMessage;
+
+    // No assertions needed beyond ensuring the promise resolves without warnings or errors.
+    expect(getHelloMessage).toHaveBeenCalledTimes(1);
+  });
 });

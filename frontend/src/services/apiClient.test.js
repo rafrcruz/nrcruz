@@ -61,4 +61,29 @@ describe('apiClient', () => {
       message: 'Server exploded',
     });
   });
+
+  it('parses relative paths without a leading slash', async () => {
+    const mockResponse = new Response('ok', { status: 200 });
+    global.fetch = vi.fn().mockResolvedValue(mockResponse);
+
+    await apiClient.get('relative/path');
+
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost/relative/path', {
+      method: 'GET',
+    });
+  });
+
+  it('logs JSON parse failures for validation errors gracefully', async () => {
+    const mockResponse = new Response('not-json', {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    global.fetch = vi.fn().mockResolvedValue(mockResponse);
+
+    await expect(apiClient.get('/invalid-json')).rejects.toThrow('not-json');
+    expect(logger.debug).toHaveBeenCalledWith(
+      'Failed to parse JSON response for validation error',
+      expect.any(Error)
+    );
+  });
 });

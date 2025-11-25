@@ -83,6 +83,21 @@ describe('registerGlobalErrorHandlers', () => {
     });
   });
 
+  it('falls back when serialization fails for complex reasons', () => {
+    registerGlobalErrorHandlers();
+    const nonSerializable = { fn: () => {} };
+
+    globalThis.onunhandledrejection?.({ reason: nonSerializable });
+
+    expect(logger.debug).toHaveBeenCalledWith(
+      'Failed to serialize value for logging',
+      expect.any(Error)
+    );
+    expect(logger.error).toHaveBeenCalledWith('Unhandled promise rejection captured globally', {
+      reason: nonSerializable,
+    });
+  });
+
   it('does not report to Sentry when it is not ready', () => {
     isSentryReady.mockReturnValueOnce({ enabled: false, initialized: false });
     registerGlobalErrorHandlers();

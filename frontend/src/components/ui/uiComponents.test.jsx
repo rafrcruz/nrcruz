@@ -100,6 +100,14 @@ describe('UI components', () => {
     expect(ref.current).toBe(input);
   });
 
+  it('renders TextInput without optional label or helper text', () => {
+    render(<TextInput id="email" placeholder="Email" />);
+
+    expect(screen.queryByTestId('label')).toBeNull();
+    expect(screen.queryByText(/help/i)).toBeNull();
+    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
+  });
+
   it('exposes components through the index file', () => {
     expect(uiIndex.BaseCard).toBe(BaseCard);
     expect(uiIndex.BaseContainer).toBe(BaseContainer);

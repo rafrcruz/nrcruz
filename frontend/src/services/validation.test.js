@@ -55,4 +55,18 @@ describe('backend validation helpers', () => {
     expect(error.details.fieldErrors.username).toEqual(['Taken']);
     expect(error.message).toBe('Request validation failed');
   });
+
+  it('normalizes unexpected payloads safely', () => {
+    expect(normalizeBackendValidationError(null)).toEqual({
+      message: 'Request validation failed',
+      fieldErrors: {},
+      formErrors: [],
+      raw: null,
+    });
+
+    expect(normalizeBackendValidationError({ errors: { age: 20, misc: [1, 'ok', {}] } }))
+      .toMatchObject({
+        fieldErrors: { age: ['20'], misc: ['1', 'ok'] },
+      });
+  });
 });
