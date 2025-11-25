@@ -22,7 +22,9 @@ describe('validateData', () => {
 
     expect(result.success).toBe(false);
     expect(result.error).toBeInstanceOf(ValidationError);
-    expect(result.error.details.fieldErrors.name[0]).toContain('expected string to have >=2 characters');
+    expect(result.error.details.fieldErrors.name[0]).toContain(
+      'expected string to have >=2 characters'
+    );
   });
 });
 

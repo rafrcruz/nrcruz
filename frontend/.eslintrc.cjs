@@ -62,7 +62,31 @@ module.exports = {
     },
   },
   ignorePatterns: ['dist', 'build'],
+  overrides: [
+    {
+      files: ['*.config.js', '*.config.cjs', 'postcss.config.js', 'tailwind.config.js'],
+      env: {
+        node: true,
+      },
+    },
+    {
+      files: ['**/*.test.{js,jsx,ts,tsx}', 'tests/**/*.js'],
+      env: {
+        node: true,
+        browser: true,
+        jest: true,
+      },
+      globals: {
+        vi: 'readonly',
+      },
+      rules: {
+        'react/prop-types': 'off',
+        'react/display-name': 'off',
+      },
+    },
+  ],
   rules: {
     ...Object.fromEntries(jsxA11yWarnRules.map((rule) => [rule, 'warn'])),
+    'react/react-in-jsx-scope': 'off',
   },
 };

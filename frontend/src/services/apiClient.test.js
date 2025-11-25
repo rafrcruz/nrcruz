@@ -41,7 +41,7 @@ describe('apiClient', () => {
       {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
-      },
+      }
     );
 
     global.fetch = vi.fn().mockResolvedValue(mockResponse);

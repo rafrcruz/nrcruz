@@ -1,3 +1,4 @@
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { registerGlobalErrorHandlers } from './globalErrorHandler';
 import { logger } from './logger';
 import { captureWithSentry, isSentryReady } from './sentry';

@@ -21,7 +21,7 @@ describe('dataPrefetcher', () => {
     const { prefetchData } = await loadPrefetcher();
 
     await expect(prefetchData('', () => Promise.resolve())).rejects.toThrow(
-      /requires a key and a fetcher/,
+      /requires a key and a fetcher/
     );
     await expect(prefetchData('missing')).rejects.toThrow(/requires a key and a fetcher/);
   });

@@ -10,8 +10,9 @@ import { createPrefetchableComponent, prefetchComponent } from './componentPrefe
 
 // Register a lazy component so it can be prefetched later. The component is only
 // loaded when `prefetchComponent` or React rendering triggers the importer.
-const homePagePrefetch = createPrefetchableComponent('home-page-prefetch-example', () =>
-  import('../../features/hello/pages/HomePage'),
+const homePagePrefetch = createPrefetchableComponent(
+  'home-page-prefetch-example',
+  () => import('../../features/hello/pages/HomePage')
 );
 
 // Example object to illustrate how callers can organize handlers.

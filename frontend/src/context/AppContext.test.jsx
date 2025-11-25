@@ -16,7 +16,7 @@ describe('AppContext', () => {
   it('throws when used outside of provider', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => ensureAppContext(null)).toThrow(
-      'useAppContext must be used within an AppProvider',
+      'useAppContext must be used within an AppProvider'
     );
     consoleErrorSpy.mockRestore();
   });

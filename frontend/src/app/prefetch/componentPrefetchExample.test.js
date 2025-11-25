@@ -25,7 +25,7 @@ describe('componentPrefetchExample', () => {
 
     expect(prefetcher.createPrefetchableComponent).toHaveBeenCalledWith(
       'home-page-prefetch-example',
-      expect.any(Function),
+      expect.any(Function)
     );
     expect(HomePagePrefetchExample.Component).toBe(registryEntry.LazyComponent);
 

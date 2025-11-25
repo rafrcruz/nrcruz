@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from './logger';
 import { captureExceptionFromLogger } from './sentry';
 
@@ -11,19 +12,18 @@ describe('logger', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    global.Date = class extends Date {
+    class MockDate extends Date {
       constructor(...args) {
-        if (args.length) {
-          return super(...args);
-        }
-        return fixedDate;
+        super(...(args.length ? args : [fixedDate]));
       }
       static now() {
         return fixedDate.getTime();
       }
-      static parse = originalDate.parse;
-      static UTC = originalDate.UTC;
-    };
+    }
+
+    MockDate.parse = originalDate.parse;
+    MockDate.UTC = originalDate.UTC;
+    global.Date = MockDate;
 
     vi.spyOn(console, 'info').mockImplementation(() => {});
     vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -41,14 +41,13 @@ describe('logger', () => {
     logger.warn('warn message');
     logger.debug('debug message', 'extra');
 
-    expect(console.info).toHaveBeenCalledWith(
-      '[2024-01-01T00:00:00.000Z] [INFO] info message',
-      { a: 1 },
-    );
+    expect(console.info).toHaveBeenCalledWith('[2024-01-01T00:00:00.000Z] [INFO] info message', {
+      a: 1,
+    });
     expect(console.warn).toHaveBeenCalledWith('[2024-01-01T00:00:00.000Z] [WARN] warn message');
     expect(console.debug).toHaveBeenCalledWith(
       '[2024-01-01T00:00:00.000Z] [DEBUG] debug message',
-      'extra',
+      'extra'
     );
   });
 
@@ -57,7 +56,7 @@ describe('logger', () => {
 
     expect(console.error).toHaveBeenCalledWith(
       '[2024-01-01T00:00:00.000Z] [ERROR] boom',
-      expect.any(Error),
+      expect.any(Error)
     );
     expect(captureExceptionFromLogger).toHaveBeenCalledWith('boom', [expect.any(Error)]);
   });

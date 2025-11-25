@@ -6,6 +6,7 @@ import PrimaryButton from './PrimaryButton';
 import TextInput from './TextInput';
 import * as uiIndex from './index';
 
+/* eslint-disable jsx-a11y/label-has-for */
 vi.mock('flowbite-react', () => {
   const Card = ({ children, className, ...props }) => (
     <div data-testid="card" className={className} {...props}>
@@ -19,8 +20,8 @@ vi.mock('flowbite-react', () => {
     </button>
   ));
 
-  const Label = ({ children, ...props }) => (
-    <label data-testid="label" {...props}>
+  const Label = ({ children, htmlFor = 'mock-control', ...props }) => (
+    <label data-testid="label" htmlFor={htmlFor} {...props}>
       {children}
     </label>
   );
@@ -37,7 +38,7 @@ describe('UI components', () => {
     render(
       <BaseCard className="custom-card" data-extra="yes">
         <span>Inside card</span>
-      </BaseCard>,
+      </BaseCard>
     );
 
     const card = screen.getByTestId('card');
@@ -67,7 +68,7 @@ describe('UI components', () => {
     render(
       <BaseContainer data-extra="container" className="custom-container">
         <span>Inside container</span>
-      </BaseContainer>,
+      </BaseContainer>
     );
 
     const container = screen.getByText('Inside container').parentElement;
@@ -89,7 +90,7 @@ describe('UI components', () => {
         helperText="Helpful text"
         className="container"
         inputClassName="input-class"
-      />,
+      />
     );
 
     const input = screen.getByTestId('input');

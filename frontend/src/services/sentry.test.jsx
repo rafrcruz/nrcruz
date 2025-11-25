@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 const initMock = vi.fn();
 const captureExceptionMock = vi.fn();
@@ -67,7 +66,7 @@ describe('sentry service', () => {
     const { queryByTestId, getByText } = render(
       <sentryModule.SentryErrorBoundary>
         <span>Child</span>
-      </sentryModule.SentryErrorBoundary>,
+      </sentryModule.SentryErrorBoundary>
     );
 
     expect(getByText('Child')).toBeInTheDocument();
@@ -109,7 +108,7 @@ describe('sentry service', () => {
     const { getByTestId, getByText } = render(
       <sentryModule.SentryErrorBoundary>
         <span>Wrapped</span>
-      </sentryModule.SentryErrorBoundary>,
+      </sentryModule.SentryErrorBoundary>
     );
 
     expect(getByTestId('sentry-boundary')).toBeInTheDocument();
