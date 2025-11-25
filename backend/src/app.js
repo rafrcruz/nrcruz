@@ -1,12 +1,11 @@
 const express = require('express');
-const cors = require('cors');
 const compression = require('compression');
 
 const { initSentry, getRequestHandler, getErrorHandler } = require('./config/sentry');
-const { config } = require('./config/env');
 const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { securityHeaders } = require('./middlewares/securityHeaders');
+const { corsMiddleware } = require('./middlewares/cors');
 const { rateLimiter, userAgentFilter } = require('./middlewares/trafficControl');
 
 const app = express();
@@ -15,24 +14,7 @@ const app = express();
 initSentry(app);
 
 app.disable('x-powered-by');
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin && config.cors.allowNoOrigin) {
-      return callback(null, true);
-    }
-
-    if (config.cors.allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(null, false);
-  },
-  credentials: config.cors.allowCredentials,
-  optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use(corsMiddleware);
 app.use(securityHeaders);
 app.use(userAgentFilter);
 app.use(rateLimiter);
