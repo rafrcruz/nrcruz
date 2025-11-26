@@ -24,6 +24,10 @@ export default defineConfig(() => {
       globals: true,
       passWithNoTests: true,
       setupFiles: './src/setupTests.js',
+      env: {
+        // Ensure Vitest/CI always supplies the required API base URL via env vars.
+        VITE_API_BASE_URL: process.env.VITE_API_BASE_URL || 'http://localhost:3001',
+      },
       coverage: {
         provider: 'v8',
         reporter: ['text', 'lcov'],
