@@ -1,21 +1,32 @@
-const rawApiBaseUrl = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:3001';
-const apiBaseUrl = rawApiBaseUrl?.trim();
-const rawSentryEnabled = import.meta.env?.VITE_SENTRY_ENABLED;
-const sentryDsn = import.meta.env?.VITE_SENTRY_DSN?.trim();
+const env = import.meta?.env ?? {};
+
+const readRequiredEnvVar = name => {
+  const rawValue = env?.[name];
+  const value = typeof rawValue === 'string' ? rawValue.trim() : '';
+
+  if (!value) {
+    const message = `${name} is required. Set it in your Vite environment (.env, .env.local, or CI vars).`;
+    // eslint-disable-next-line no-console
+    console.error(message);
+    throw new Error(message);
+  }
+
+  return value;
+};
+
+const apiBaseUrl = readRequiredEnvVar('VITE_API_BASE_URL');
+const rawSentryEnabled = env?.VITE_SENTRY_ENABLED;
+const sentryDsn = env?.VITE_SENTRY_DSN?.trim();
 const sentryEnabled = ['true', '1', 'yes', 'on'].includes(String(rawSentryEnabled).toLowerCase());
 const defaultLocale = 'pt-BR';
 const defaultTimezone = 'America/Sao_Paulo';
 
-if (!apiBaseUrl && import.meta.env?.DEV) {
-  throw new Error('VITE_API_BASE_URL is required to run the frontend');
-}
-
 export const config = {
-  env: import.meta.env?.MODE || 'development',
+  env: env?.MODE || 'development',
   locale: defaultLocale,
   timezone: defaultTimezone,
   api: {
-    baseUrl: apiBaseUrl || '',
+    baseUrl: apiBaseUrl,
   },
   sentry: {
     enabled: sentryEnabled && Boolean(sentryDsn),
