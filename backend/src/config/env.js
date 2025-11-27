@@ -51,6 +51,8 @@ const defaultLocale = process.env.APP_LOCALE || 'pt-BR';
 const defaultTimezone = process.env.APP_TIMEZONE || 'America/Sao_Paulo';
 // Ajuste o sample rate de tracing do Sentry (0.0 - 1.0). Manter valores baixos evita estourar limites.
 const sentryTracesSampleRate = parseSampleRate(process.env.SENTRY_TRACES_SAMPLE_RATE, 0.2);
+// Perfis de CPU (profiling) podem gerar bastante dado; mantenha 0 a menos que precise investigar performance.
+const sentryProfilesSampleRate = parseSampleRate(process.env.SENTRY_PROFILES_SAMPLE_RATE, 0);
 
 const rateLimitEnabled = parseBoolean(process.env.RATE_LIMIT_ENABLED, true);
 const rateLimitWindowMs = parseInteger(process.env.RATE_LIMIT_WINDOW_MS, 60 * 1000);
@@ -95,6 +97,7 @@ const config = {
     enabled: sentryEnabled,
     dsn: sentryDsn,
     tracesSampleRate: sentryTracesSampleRate,
+    profilesSampleRate: sentryProfilesSampleRate,
   },
   traffic: {
     rateLimit: {

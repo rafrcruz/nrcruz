@@ -5,6 +5,7 @@ const { logger } = require('../utils/logger');
 
 let isInitialized = false;
 const DEFAULT_TRACES_SAMPLE_RATE = 0.2; // Ajuste aqui caso precise de menos ou mais amostragem.
+const DEFAULT_PROFILES_SAMPLE_RATE = 0;
 
 const SERVICE_NAME = 'nrcruz-backend';
 
@@ -22,10 +23,15 @@ const initSentry = app => {
     dsn: config.sentry.dsn,
     environment: config.env,
     serverName: SERVICE_NAME,
-    // Habilita o tracing de performance para cada requisição HTTP.
+    // Habilita o tracing de performance e, opcionalmente, perfis de CPU.
     tracesSampleRate: config.sentry.tracesSampleRate ?? DEFAULT_TRACES_SAMPLE_RATE,
+    profilesSampleRate: config.sentry.profilesSampleRate ?? DEFAULT_PROFILES_SAMPLE_RATE,
     integrations: integrations => {
-      const sentryIntegrations = [...integrations];
+      const sentryIntegrations = [
+        Sentry.httpIntegration(),
+        Sentry.postgresIntegration(),
+        ...integrations,
+      ];
 
       // A integração do Express ativa spans automáticos para middlewares e handlers.
       if (app) {

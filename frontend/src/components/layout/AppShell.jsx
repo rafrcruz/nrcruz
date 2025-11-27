@@ -10,11 +10,7 @@ function AppShell({ title = 'NRCruz', children }) {
         <header className="flex h-16 items-center border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-sm">
           <div className="flex w-full items-center justify-between gap-3">
             <div className="flex min-w-0 flex-1 items-center gap-3">
-              <div
-                aria-hidden
-                className="hidden"
-                data-slot="mobile-navigation-trigger"
-              />
+              <div aria-hidden className="hidden" data-slot="mobile-navigation-trigger" />
               <div className="text-lg font-semibold tracking-tight">{title}</div>
             </div>
 
@@ -25,11 +21,7 @@ function AppShell({ title = 'NRCruz', children }) {
           </div>
         </header>
 
-        <div
-          aria-hidden
-          className="hidden"
-          data-slot="mobile-navigation-surface"
-        />
+        <div aria-hidden className="hidden" data-slot="mobile-navigation-surface" />
 
         <main className="flex flex-1 items-stretch py-6" role="main">
           <div className="w-full">{children}</div>

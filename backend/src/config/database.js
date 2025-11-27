@@ -24,7 +24,6 @@ const getPool = () => {
 
     pool.on('error', error => {
       // Log once and let the process crash if an unrecoverable error bubbles.
-      // eslint-disable-next-line no-console
       console.error('Unexpected error on idle Postgres client', error);
     });
   }

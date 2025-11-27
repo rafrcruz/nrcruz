@@ -1,3 +1,3 @@
-const fetchHelloMessage = () => 'NRCruz app';
+const fetchHelloMessage = async () => 'NRCruz app';
 
 module.exports = { fetchHelloMessage };

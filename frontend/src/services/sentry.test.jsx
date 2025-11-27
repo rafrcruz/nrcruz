@@ -4,6 +4,7 @@ const initMock = vi.fn();
 const captureExceptionMock = vi.fn();
 const captureMessageMock = vi.fn();
 const browserTracingIntegrationMock = vi.fn(() => 'trace');
+const replayIntegrationMock = vi.fn(() => 'replay');
 const ErrorBoundary = ({ children }) => <div data-testid="sentry-boundary">{children}</div>;
 
 vi.mock('@sentry/react', () => ({
@@ -11,6 +12,7 @@ vi.mock('@sentry/react', () => ({
   captureException: captureExceptionMock,
   captureMessage: captureMessageMock,
   browserTracingIntegration: browserTracingIntegrationMock,
+  replayIntegration: replayIntegrationMock,
   ErrorBoundary,
 }));
 
@@ -41,8 +43,10 @@ describe('sentry service', () => {
     expect(initMock).toHaveBeenCalledWith({
       dsn: 'dsn-token',
       environment: 'test',
-      integrations: ['trace'],
+      integrations: ['trace', 'replay'],
       tracesSampleRate: 0.2,
+      replaysSessionSampleRate: 0,
+      replaysOnErrorSampleRate: 1,
     });
     expect(browserTracingIntegrationMock).toHaveBeenCalledWith({
       instrumentNavigation: true,

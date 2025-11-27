@@ -1,8 +1,8 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Label, TextInput as FlowbiteTextInput } from 'flowbite-react';
 
-const TextInput = React.forwardRef(
+const TextInput = forwardRef(
   ({ id, label, className = '', inputClassName = '', helperText, ...props }, ref) => (
     <div className={`flex w-full flex-col gap-2 ${className}`}>
       {label ? (
@@ -19,7 +19,7 @@ const TextInput = React.forwardRef(
       />
       {helperText ? <p className="text-xs text-neutral-200">{helperText}</p> : null}
     </div>
-  ),
+  )
 );
 
 TextInput.displayName = 'TextInput';

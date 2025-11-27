@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 // Lightweight structural wrapper powered by design tokens. Use it to build

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { logger } from './services/logger';
 import { initSentry } from './services/sentry.jsx';

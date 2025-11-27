@@ -10,28 +10,28 @@ beforeEach(() => {
 });
 
 describe('helloController', () => {
-  it('sends hello message response', () => {
-    vi.spyOn(helloService, 'getHelloMessage').mockReturnValue('NRCruz app');
+  it('sends hello message response', async () => {
+    vi.spyOn(helloService, 'getHelloMessage').mockResolvedValue('NRCruz app');
     const send = vi.fn();
     const next = vi.fn();
 
-    getHello({}, { send }, next);
+    await getHello({}, { send }, next);
 
     expect(send).toHaveBeenCalledWith('NRCruz app');
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('delegates errors to the error handler', () => {
+  it('propagates errors to Express (promise rejection)', async () => {
     const error = new Error('Unexpected');
-    vi.spyOn(helloService, 'getHelloMessage').mockImplementation(() => {
-      throw error;
-    });
+    vi.spyOn(helloService, 'getHelloMessage').mockRejectedValue(error);
     const send = vi.fn();
     const next = vi.fn();
 
-    getHello({}, { send }, next);
+    await expect(getHello({}, { send }, next)).rejects.toThrow(error);
 
     expect(send).not.toHaveBeenCalled();
-    expect(next).toHaveBeenCalledWith(error);
+    // Express 5 encaminha rejeições de Promise automaticamente para o error handler,
+    // então o controller não precisa chamar next manualmente.
+    expect(next).not.toHaveBeenCalled();
   });
 });

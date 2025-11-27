@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'flowbite-react';
 import { AppProvider } from './context/AppContext';
@@ -16,7 +16,7 @@ registerGlobalErrorHandlers();
 logger.info('Starting React application', { env: config.env });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <StrictMode>
     <SentryErrorBoundary>
       <ThemeProvider theme={flowbiteTheme}>
         <AppProvider>
@@ -24,5 +24,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </AppProvider>
       </ThemeProvider>
     </SentryErrorBoundary>
-  </React.StrictMode>,
+  </StrictMode>
 );

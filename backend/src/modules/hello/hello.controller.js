@@ -1,12 +1,8 @@
 const helloService = require('./hello.service');
 
-const getHello = (_req, res, next) => {
-  try {
-    const message = helloService.getHelloMessage();
-    res.send(message);
-  } catch (error) {
-    next(error);
-  }
+const getHello = async (_req, res) => {
+  const message = await helloService.getHelloMessage();
+  res.send(message);
 };
 
 module.exports = { getHello };

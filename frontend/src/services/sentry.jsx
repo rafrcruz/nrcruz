@@ -4,13 +4,16 @@ import {
   captureException,
   captureMessage,
   init,
+  replayIntegration,
 } from '@sentry/react';
 import PropTypes from 'prop-types';
 import { config } from '../config/env';
 
 const isSentryEnabled = Boolean(config.sentry?.enabled && config.sentry?.dsn);
 let sentryInitialized = false;
-const tracesSampleRate = 0.2; // Safe default for free tier; set to 0 to disable tracing or raise carefully if capacity allows.
+const tracesSampleRate = config.sentry.tracesSampleRate ?? 0.2; // Safe default for free tier; set to 0 to disable tracing or raise carefully if capacity allows.
+const replaysSessionSampleRate = config.sentry.replaysSessionSampleRate ?? 0;
+const replaysOnErrorSampleRate = config.sentry.replaysOnErrorSampleRate ?? 1;
 
 const tracingIntegration = browserTracingIntegration({
   instrumentNavigation: true,
@@ -29,8 +32,18 @@ export function initSentry() {
     dsn: config.sentry.dsn,
     environment: config.env,
     // Performance tracing: page load, navigation, API calls, and slow component renders.
-    integrations: [tracingIntegration],
+    integrations: [
+      tracingIntegration,
+      replaysSessionSampleRate > 0 || replaysOnErrorSampleRate > 0
+        ? replayIntegration({
+            maskAllText: false,
+            blockAllMedia: false,
+          })
+        : null,
+    ].filter(Boolean),
     tracesSampleRate,
+    replaysSessionSampleRate,
+    replaysOnErrorSampleRate,
   });
 
   sentryInitialized = true;

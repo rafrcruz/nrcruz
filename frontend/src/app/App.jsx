@@ -9,8 +9,9 @@ import { createPrefetchableComponent } from './prefetch/componentPrefetcher';
 // prefetching for navigation-driven events (hover, focus, viewport). The
 // prefetch call is optional and intentionally unused for now to preserve the
 // current behavior.
-const homePageRegistration = createPrefetchableComponent('home-page', () =>
-  import('../features/hello/pages/HomePage'),
+const homePageRegistration = createPrefetchableComponent(
+  'home-page',
+  () => import('../features/hello/pages/HomePage')
 );
 export const preloadHomePage = homePageRegistration.preload;
 const HomePage = homePageRegistration.LazyComponent;

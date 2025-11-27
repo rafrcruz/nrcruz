@@ -10,12 +10,12 @@ beforeEach(() => {
 });
 
 describe('helloService', () => {
-  it('returns message from repository', () => {
+  it('returns message from repository', async () => {
     const fetchHelloMessageSpy = vi
       .spyOn(helloRepository, 'fetchHelloMessage')
-      .mockReturnValue('NRCruz app');
+      .mockResolvedValue('NRCruz app');
 
-    const message = helloService.getHelloMessage();
+    const message = await helloService.getHelloMessage();
 
     expect(fetchHelloMessageSpy).toHaveBeenCalledTimes(1);
     expect(message).toBe('NRCruz app');

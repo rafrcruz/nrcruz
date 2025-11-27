@@ -1,10 +1,10 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'flowbite-react';
 
 // Base button aligned with the design tokens so future variants can extend
 // the same spacing, typography, borders and state colors without hardcoded values.
-const PrimaryButton = React.forwardRef(({ children, className = '', ...props }, ref) => {
+const PrimaryButton = forwardRef(({ children, className = '', ...props }, ref) => {
   const baseClasses = [
     'inline-flex w-full items-center justify-center gap-sm',
     'rounded-md border border-primary-600 bg-primary-600 px-xl py-sm',
@@ -15,7 +15,12 @@ const PrimaryButton = React.forwardRef(({ children, className = '', ...props }, 
   ];
 
   return (
-    <Button ref={ref} color="primary" className={`${baseClasses.join(' ')} ${className}`} {...props}>
+    <Button
+      ref={ref}
+      color="primary"
+      className={`${baseClasses.join(' ')} ${className}`}
+      {...props}
+    >
       {children}
     </Button>
   );
