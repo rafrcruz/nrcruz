@@ -47,7 +47,7 @@ const openApiSpecification = {
       get: {
         tags: ['v1', 'Hello'],
         summary: 'Retorna a mensagem de saudação padrão.',
-        description: 'Endpoint público que responde com uma string simples.',
+        description: 'Recupera a mensagem de saudação mais recente do banco de dados.',
         responses: {
           200: {
             description: 'Mensagem retornada com sucesso.',
